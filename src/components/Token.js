@@ -23,7 +23,6 @@ export default class Token extends Component {
           console.log(data);
         })
       )
-      .then(() => this.getNewData())
       .catch((error) => console.log(error, "error"));
   }
 

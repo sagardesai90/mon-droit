@@ -23,5 +23,5 @@ def read_root():
 @app.post("/tokens")
 def get_tokens(request: Request):
     tokens_req = request.json
-    print(tokens_req.method["token"], "tokens")
+    print(tokens_req, "tokens")
     return tokens_req
