@@ -17,13 +17,7 @@ export default class Token extends Component {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({ token: this.state.token }),
-    })
-      .then((res) =>
-        res.json().then((data) => {
-          console.log(data);
-        })
-      )
-      .catch((error) => console.log(error, "error"));
+    }).catch((error) => console.log(error, "error"));
   }
 
   handleChange(event) {

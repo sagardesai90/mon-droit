@@ -1,12 +1,42 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import json
 
 app = FastAPI()
 
 origins = [
     "http://localhost:3000"
 ]
+
+twitter_tokens = {
+    "API_key": "",
+    "API_secret_key": "",
+    "access_token": "",
+    "access_token_secret": ""
+}
+
+user_id = <user id of the recipient>
+message_text = <the DM text>
+
+r = api.request('direct_messages/events/new', json.dumps(event))
+print('SUCCESS' if r.status_code == 200 else 'PROBLEM: ' + r.text)
+
+event = {
+    "event": {
+        "type": "message_create",
+        "message_create": {
+            "target": {
+                "recipient_id": user_id
+            },
+            "message_data": {
+                "text": message_text
+            }
+        }
+    }
+}
+
+
 
 app.add_middleware(
     CORSMiddleware,
