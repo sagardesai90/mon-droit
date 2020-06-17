@@ -25,17 +25,17 @@ api = TwitterAPI(twitter_tokens["API_key"],
 ids = {"foodtruckfinde1":"1013860593738997760",
 "interviewsndbox":"1266792700701007872"}
 
-user_id = ids["foodtruckfinde1"]
-message_text = "So we're getting started with a new program, where we can message our followers on several platforms. \n\nFind us on substack.com here. Look forward to your continued support!  \n\n-Sagar"
+# user_id = ids["foodtruckfinde1"]
 
-for user in ids.values():
-    print(user, "user")
+for user in ids:
+    message_text = "Hey %s,\n\nSo we're getting started with a new program, where we can message our followers on several platforms. \n\nFind us on substack.com here. Look forward to your continued support!  \n\n-Sagar" % user
+    print(ids[user], "ids[user]")
     event = {
         "event": {
             "type": "message_create",
             "message_create": {
                 "target": {
-                    "recipient_id": user
+                    "recipient_id": ids[user]
                 },
                 "message_data": {
                     "text": message_text
