@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from TwitterAPI import TwitterAPI
 import json
 
 app = FastAPI()
@@ -16,25 +17,40 @@ twitter_tokens = {
     "access_token_secret": ""
 }
 
-user_id = <user id of the recipient>
-message_text = <the DM text>
+api = TwitterAPI(twitter_tokens["API_key"], 
+                 twitter_tokens["API_secret_key"],
+                 twitter_tokens["access_token"],
+                 twitter_tokens["access_token_secret"])
 
-r = api.request('direct_messages/events/new', json.dumps(event))
-print('SUCCESS' if r.status_code == 200 else 'PROBLEM: ' + r.text)
+ids = {"foodtruckfinde1":"1013860593738997760",
+"interviewsndbox":"1266792700701007872"}
 
-event = {
-    "event": {
-        "type": "message_create",
-        "message_create": {
-            "target": {
-                "recipient_id": user_id
-            },
-            "message_data": {
-                "text": message_text
+user_id = ids["foodtruckfinde1"]
+message_text = "So we're getting started with a new program, where we can message our followers on several platforms. \n\nFind us on substack.com here. Look forward to your continued support!  \n\n-Sagar"
+
+for user in ids.values():
+    print(user, "user")
+    event = {
+        "event": {
+            "type": "message_create",
+            "message_create": {
+                "target": {
+                    "recipient_id": user
+                },
+                "message_data": {
+                    "text": message_text
+                }
             }
         }
     }
-}
+    r = api.request('direct_messages/events/new', json.dumps(event))
+
+
+
+
+print('SUCCESS' if r.status_code == 200 else 'PROBLEM: ' + r.text)
+
+
 
 
 
