@@ -1,17 +1,14 @@
-from fastapi import FastAPI, Request
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from pydantic import BaseModel
-from fastapi.middleware.cors import CORSMiddleware
 from TwitterAPI import TwitterAPI
 import tweepy
 import json
 import twint
 
 
-app = FastAPI()
-
-origins = [
-    "http://localhost:3000"
-]
+app = Flask(__name__)
+CORS(app)
 
 twitter_tokens = {
     "API_key": "",
@@ -32,55 +29,39 @@ auth.set_access_token(
 
 tweepyAPI = tweepy.API(auth)
 
-
-# Get list of followers using Twint (no API calls used)
-def get_followers():
-    # c = twint.Config()
-    # c.Username = "sagrd90"
-    # c.Store_object = True
-    # c.Store_json = True
-    # c.Output = "followers.json"
-    # c.Custom = True
-    # twint.run.Followers(c)
-    followers = tweepyAPI.followers('sagrd90')
-    for follower in followers:
-        handle = follower._json['screen_name']
-        user_id = follower._json['id']
-        bio = follower._json['description']
-        followers_count = follower._json['followers_count']
-        verified = follower._json['verified']
-        location = follower._json['location']
-        with open('followers.json', 'r') as json_file:
-            followers_data = json.load(json_file)
-        followers_data["followers"].update({handle: [user_id, bio,
-                                                     followers_count, verified, location]})
-        # userObject = {handle: [user_id, bio,
-        #                        followers_count, verified, location]}
-        with open('followers.json', 'w') as json_file:
-            json.dump(followers_data, json_file, indent=4)
-    # return followers_data
+# YOUR TWITTER SCREEN NAME GOES HERE
+your_user_id = 'sagrd90'
 
 
-get_followers()
+def get_all_followers():
+    all_followers = tweepy.Cursor(
+        tweepyAPI.followers, screen_name=your_user_id, count=200).pages()
+    for request in range(15):
+        your_200_followers = next(all_followers)
+        for each_follower in your_200_followers:
+            handle = each_follower._json['screen_name']
+            user_id = each_follower._json['id']
+            bio = each_follower._json['description']
+            followers_count = each_follower._json['followers_count']
+            verified = each_follower._json['verified']
+            location = each_follower._json['location']
+            with open('followers.json', 'r') as json_file:
+                followers_data = json.load(json_file)
+            followers_data["followers"].update({handle: [user_id, bio,
+                                                         followers_count, verified, location]})
+            # userObject = {handle: [user_id, bio,
+            #                        followers_count, verified, location]}
+            with open('followers.json', 'w') as json_file:
+                json.dump(followers_data, json_file, indent=4)
 
 
-def get_profile():
-    c = twint.Config()
-    c.Username = "sagrd90"
-    c.Profile_full = True
-    twint.run.Profile(c)
-
-
-# get_profile()
-
+# get_all_followers()
 
 ids = {"foodtruckfinde1": "1013860593738997760",
        "interviewsndbox": "1266792700701007872"}
 
 
 # Lets you send DMs to a set of users with a custom message. (API calls used)
-
-
 def send_DM():
     for user in ids:
         # Message you want to send to users
@@ -104,22 +85,14 @@ def send_DM():
 # send_DM()
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.get("/")
+@app.route('/', methods=['GET'])
+@cross_origin(origin='*')
 def read_root():
-    return {"Hello": "World"}
+    return "hi"
 
 
-@app.post("/tokens")
-def get_tokens(request: Request):
+@app.route('/tokens', methods=['POST'])
+def get_tokens():
     tokens_req = request.json
     print(tokens_req, "tokens")
     return tokens_req
