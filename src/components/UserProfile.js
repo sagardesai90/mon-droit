@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "./UserProfile.css";
 export default class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -27,12 +27,19 @@ export default class UserProfile extends Component {
 
   render() {
     return (
-      <div>
-        <input
-          onChange={this.handleChange.bind(this)}
-          placeholder="Username"
-        ></input>
-        <button onClick={this.userID}>Go</button>
+      <div className="screen-name">
+        <label className="pure-material-textfield-outlined">
+          <input
+            type="text"
+            name="screenName"
+            onChange={this.handleChange.bind(this)}
+            placeholder=" "
+          />
+          <span>Username</span>
+        </label>
+        <button className="go-button" onClick={this.userID}>
+          Go
+        </button>
       </div>
     );
   }

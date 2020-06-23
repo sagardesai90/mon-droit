@@ -45,7 +45,6 @@ your_user_id = None
 
 
 def set_user(name):
-    your_user_id = name
     get_all_followers(name)
 
 

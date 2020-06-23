@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Token.css";
 
 export default class Token extends Component {
   constructor(props) {
@@ -38,27 +39,42 @@ export default class Token extends Component {
   render() {
     return (
       <div>
-        <input
-          name="apiKey"
-          onChange={this.handleChange.bind(this)}
-          placeholder="API Key"
-        ></input>
-        <input
-          name="secretApiKey"
-          onChange={this.handleChange.bind(this)}
-          placeholder="Secret API Key"
-        ></input>
-        <input
-          name="accessToken"
-          onChange={this.handleChange.bind(this)}
-          placeholder="Access Token"
-        ></input>
-        <input
-          name="secretAccessToken"
-          onChange={this.handleChange.bind(this)}
-          placeholder="Secret Access Token"
-        ></input>
-        <button onClick={this.setToken}>Set Keys</button>
+        <label className="pure-material-textfield-outlined">
+          <input
+            name="apiKey"
+            onChange={this.handleChange.bind(this)}
+            placeholder=" "
+          />
+          <span>API Key</span>
+        </label>
+        <label className="pure-material-textfield-outlined">
+          <input
+            name="secretApiKey"
+            onChange={this.handleChange.bind(this)}
+            placeholder=" "
+          />
+          <span>Secret API Key</span>
+        </label>
+        <label className="pure-material-textfield-outlined">
+          <input
+            name="accessToken"
+            onChange={this.handleChange.bind(this)}
+            placeholder=" "
+          />
+          <span>Access Token</span>
+        </label>
+        <label className="pure-material-textfield-outlined">
+          <input
+            name="secretAccessToken"
+            onChange={this.handleChange.bind(this)}
+            placeholder=" "
+          />
+          <span>Secret Access Token</span>
+        </label>
+
+        <button className="btn" onClick={this.setToken}>
+          Set Keys
+        </button>
       </div>
     );
   }
