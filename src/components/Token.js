@@ -58,7 +58,7 @@ export default class Token extends Component {
           onChange={this.handleChange.bind(this)}
           placeholder="Secret Access Token"
         ></input>
-        <button onClick={this.setToken}>API Key</button>
+        <button onClick={this.setToken}>Set Keys</button>
       </div>
     );
   }

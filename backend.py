@@ -10,32 +10,50 @@ import twint
 app = Flask(__name__)
 CORS(app)
 
-twitter_tokens = {
-    "API_key": "",
-    "API_secret_key": "",
-    "access_token": "",
-    "access_token_secret": ""
-}
 
-api = TwitterAPI(twitter_tokens["API_key"],
-                 twitter_tokens["API_secret_key"],
-                 twitter_tokens["access_token"],
-                 twitter_tokens["access_token_secret"])
+def set_tokens(req):
+    with open("tokens.json", 'r') as json_file:
+        token_data = json.load(json_file)
+    token_data.update({"API_key": req["apiKey"],
+                       "API_secret_key": req["secretApiKey"],
+                       "access_token": req["accessToken"],
+                       "access_token_secret": req["secretAccessToken"]})
+    with open('tokens.json', 'w') as json_file:
+        json.dump(token_data, json_file, indent=4)
+
+
+# GET TOKEN DATA FROM tokens.json
+with open('tokens.json', 'r') as json_file:
+    token_data = json.load(json_file)
+
+api = TwitterAPI(token_data["API_key"],
+                 token_data["API_secret_key"],
+                 token_data["access_token"],
+                 token_data["access_token_secret"])
+
 
 auth = tweepy.OAuthHandler(
-    twitter_tokens["API_key"], twitter_tokens["API_secret_key"])
+    token_data["API_key"], token_data["API_secret_key"])
 auth.set_access_token(
-    twitter_tokens["access_token"], twitter_tokens["access_token_secret"])
+    token_data["access_token"], token_data["access_token_secret"])
 
 tweepyAPI = tweepy.API(auth)
 
 # YOUR TWITTER SCREEN NAME GOES HERE
-your_user_id = 'sagrd90'
+
+your_user_id = None
 
 
-def get_all_followers():
+def set_user(name):
+    your_user_id = name
+    get_all_followers(name)
+
+
+def get_all_followers(name):
+    print("Getting all the followers for ", name,
+          ". Please know that twitter has rate limits, so only up to 3000 followers can be returned at every 15 minute interval.")
     all_followers = tweepy.Cursor(
-        tweepyAPI.followers, screen_name=your_user_id, count=200).pages()
+        tweepyAPI.followers, screen_name=name, count=200).pages()
     for request in range(15):
         your_200_followers = next(all_followers)
         for each_follower in your_200_followers:
@@ -54,8 +72,6 @@ def get_all_followers():
             with open('followers.json', 'w') as json_file:
                 json.dump(followers_data, json_file, indent=4)
 
-
-# get_all_followers()
 
 ids = {"foodtruckfinde1": "1013860593738997760",
        "interviewsndbox": "1266792700701007872"}
@@ -91,8 +107,15 @@ def read_root():
     return "hi"
 
 
+@app.route('/user', methods=['POST'])
+def get_user():
+    user_req = request.json
+    set_user(user_req['screenName'])
+    return user_req
+
+
 @app.route('/tokens', methods=['POST'])
 def get_tokens():
     tokens_req = request.json
-    print(tokens_req, "tokens")
+    set_tokens(tokens_req)
     return tokens_req
