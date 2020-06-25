@@ -64,10 +64,13 @@ def get_all_followers(name):
             location = each_follower._json['location']
             with open('followers.json', 'r') as json_file:
                 followers_data = json.load(json_file)
-            followers_data["followers"].update({handle: [user_id, bio,
-                                                         followers_count, verified, location]})
-            # userObject = {handle: [user_id, bio,
-            #                        followers_count, verified, location]}
+            followers_data["followers"].update({handle: {
+                "user_id": user_id,
+                "bio": bio,
+                "followers_count": followers_count,
+                "verified": verified,
+                "location": location
+            }})
             with open('followers.json', 'w') as json_file:
                 json.dump(followers_data, json_file, indent=4)
 
