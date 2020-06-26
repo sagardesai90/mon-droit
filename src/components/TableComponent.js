@@ -20,6 +20,14 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 export default class TableComponent extends Component {
   constructor(props) {
     super(props);
@@ -46,17 +54,49 @@ export default class TableComponent extends Component {
 
   render() {
     let followerData = this.state.followerData;
+    console.log(followerData, "followerData");
     const renderTable = () => {
       if (followerData) {
-        <TableContainer component={Paper}>
-          <Table className="table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-          </Table>
-        </TableContainer>;
+        let names = Object.keys(followerData["followers"]);
+        console.log(names, "names");
+        return (
+          <TableContainer>
+            <Table className="table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Screen Name</StyledTableCell>
+                  <StyledTableCell>Verified</StyledTableCell>
+                  <StyledTableCell>Bio</StyledTableCell>
+                  <StyledTableCell>Follower Count</StyledTableCell>
+                  <StyledTableCell>Localtion</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(followerData["followers"]).map((follower) => (
+                  <StyledTableRow>
+                    <StyledTableCell component="th" scope="row">
+                      {follower}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {followerData["followers"][follower]["verified"]}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {followerData["followers"][follower]["bio"]}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {followerData["followers"][follower]["followers_count"]}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {followerData["followers"][follower]["location"]}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        );
+      } else {
+        return <div>Table Here.</div>;
       }
     };
     return (
