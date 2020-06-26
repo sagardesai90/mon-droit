@@ -121,3 +121,11 @@ def get_tokens():
     tokens_req = request.json
     set_tokens(tokens_req)
     return tokens_req
+
+
+@app.route('/followers', methods=['GET'])
+@cross_origin(origin='*')
+def send_follower_data():
+    with open('followers.json', 'r') as outfile:
+        follower_data = json.load(outfile)
+    return follower_data

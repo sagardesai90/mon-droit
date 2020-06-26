@@ -9,6 +9,7 @@ export default class UserProfile extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.userID = this.userID.bind(this);
   }
+
   async userID() {
     let sendUser = await fetch("http://localhost:5000/user", {
       method: "POST",
