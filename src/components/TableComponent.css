@@ -1,0 +1,13 @@
+.container {
+  margin-right: 3rem;
+  margin-left: 3rem;
+}
+
+.sort-icon {
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.follow-count-cell {
+  width: 8rem;
+}

@@ -22,6 +22,15 @@ def set_tokens(req):
         json.dump(token_data, json_file, indent=4)
 
 
+def campaign(info):
+    print(info, "info here")
+    with open("campaigns.json", 'r') as json_file:
+        campaign_data = json.load(json_file)
+    campaign_data.update({len(campaign_data): info})
+    with open('campaigns.json', 'w') as json_file:
+        json.dump(campaign_data, json_file, indent=4)
+
+
 # GET TOKEN DATA FROM tokens.json
 with open('tokens.json', 'r') as json_file:
     token_data = json.load(json_file)
@@ -65,6 +74,7 @@ def get_all_followers(name):
             with open('followers.json', 'r') as json_file:
                 followers_data = json.load(json_file)
             followers_data["followers"].update({handle: {
+                "handle": handle,
                 "user_id": user_id,
                 "bio": bio,
                 "followers_count": followers_count,
@@ -78,8 +88,9 @@ def get_all_followers(name):
 ids = {"foodtruckfinde1": "1013860593738997760",
        "interviewsndbox": "1266792700701007872"}
 
-
 # Lets you send DMs to a set of users with a custom message. (API calls used)
+
+
 def send_DM():
     for user in ids:
         # Message you want to send to users
@@ -129,3 +140,11 @@ def send_follower_data():
     with open('followers.json', 'r') as outfile:
         follower_data = json.load(outfile)
     return follower_data
+
+
+@app.route('/followersdm', methods=['POST'])
+@cross_origin(origin='*')
+def get_follow_DM_list():
+    follower_DM_req = request.json
+    campaign(follower_DM_req)
+    return follower_DM_req

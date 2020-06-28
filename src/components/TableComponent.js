@@ -7,12 +7,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import SortIcon from "./sort.png";
+import Checkbox from "@material-ui/core/Checkbox";
+import _ from "lodash";
 import "./TableComponent.css";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#657786",
     color: theme.palette.common.white,
   },
   body: {
@@ -31,8 +33,16 @@ const StyledTableRow = withStyles((theme) => ({
 export default class TableComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { followerData: null };
+    this.state = {
+      followerData: null,
+      order: null,
+      selected: {},
+      message: null,
+    };
     this.getData = this.getData.bind(this);
+    this.sortFollowers = this.sortFollowers.bind(this);
+    this.select = this.select.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async getData() {
@@ -46,48 +56,117 @@ export default class TableComponent extends Component {
     })
       .then((res) =>
         res.json().then((data) => {
-          this.setState({ followerData: data });
+          this.setState({ followerData: data["followers"] });
         })
       )
       .catch((error) => console.log(error, "error"));
   }
 
+  async sendFollowersDM() {
+    let followersToDM = await fetch("http://localhost:5000/followersdm", {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        toDM: this.state.selected,
+        message: this.state.message,
+      }),
+    }).catch((error) => console.log(error, "error"));
+  }
+
+  handleChange(event) {
+    this.setState({ message: event.target.value });
+  }
+
+  sortFollowers() {
+    let followerList = this.state.followerData;
+    let descSorted = _.orderBy(followerList, "followers_count", "desc");
+    let ascSorted = _.orderBy(followerList, "followers_count", "asc");
+    let sortedObj = {};
+    if (this.state.order === "descending") {
+      for (let i = 0; i < descSorted.length; i++) {
+        sortedObj[descSorted[i]["handle"]] = descSorted[i];
+      }
+      this.setState({ followerData: sortedObj, order: "ascending" });
+      console.log("#1");
+    } else if (this.state.order === "ascending") {
+      for (let i = 0; i < ascSorted.length; i++) {
+        sortedObj[ascSorted[i]["handle"]] = ascSorted[i];
+      }
+      this.setState({ followerData: sortedObj, order: "descending" });
+      console.log("#2");
+    } else if (this.state.order === null) {
+      for (let i = 0; i < ascSorted.length; i++) {
+        sortedObj[ascSorted[i]["handle"]] = ascSorted[i];
+      }
+      this.setState({ followerData: sortedObj, order: "descending" });
+      console.log("#3");
+    }
+  }
+
+  select(follower) {
+    console.log(follower, "name selected");
+    let currSelected = this.state.selected;
+    if (currSelected[follower] !== true) {
+      currSelected[follower] = true;
+    } else {
+      delete currSelected[follower];
+    }
+    console.log(currSelected, "currSelected");
+    this.setState({
+      selected: currSelected,
+    });
+  }
+
   render() {
     let followerData = this.state.followerData;
-    console.log(followerData, "followerData");
     const renderTable = () => {
       if (followerData) {
-        let names = Object.keys(followerData["followers"]);
-        console.log(names, "names");
+        let names = Object.keys(followerData);
         return (
           <TableContainer>
             <Table className="table">
               <TableHead>
                 <TableRow>
+                  <StyledTableCell>Send</StyledTableCell>
                   <StyledTableCell>Screen Name</StyledTableCell>
                   <StyledTableCell>Verified</StyledTableCell>
                   <StyledTableCell>Bio</StyledTableCell>
-                  <StyledTableCell>Follower Count</StyledTableCell>
+                  <StyledTableCell className="follow-count-cell">
+                    <img
+                      className="sort-icon"
+                      src={SortIcon}
+                      onClick={this.sortFollowers}
+                    />
+                    Follower Count
+                  </StyledTableCell>
                   <StyledTableCell>Localtion</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Object.keys(followerData["followers"]).map((follower) => (
+                {Object.keys(followerData, "folowers_data").map((follower) => (
                   <StyledTableRow>
+                    <Checkbox
+                      className="checkbox"
+                      onClick={(event) => this.select(follower)}
+                    />
                     <StyledTableCell component="th" scope="row">
                       {follower}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {followerData["followers"][follower]["verified"]}
+                      {followerData[follower]["verified"].toString()}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {followerData["followers"][follower]["bio"]}
+                      {followerData[follower]["bio"]}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {followerData[follower]["followers_count"]}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {followerData["followers"][follower]["followers_count"]}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {followerData["followers"][follower]["location"]}
+                      {followerData[follower]["location"]}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
@@ -100,7 +179,12 @@ export default class TableComponent extends Component {
       }
     };
     return (
-      <div>
+      <div className="container">
+        <input
+          placeholder="Craft your message here."
+          onChange={this.handleChange.bind(this)}
+        />
+        <button onClick={() => this.sendFollowersDM()}>Send</button>
         <button onClick={() => this.getData()}>Get Followers</button>
         {renderTable()}
       </div>
