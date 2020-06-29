@@ -22,15 +22,6 @@ def set_tokens(req):
         json.dump(token_data, json_file, indent=4)
 
 
-def campaign(info):
-    print(info, "info here")
-    with open("campaigns.json", 'r') as json_file:
-        campaign_data = json.load(json_file)
-    campaign_data.update({len(campaign_data): info})
-    with open('campaigns.json', 'w') as json_file:
-        json.dump(campaign_data, json_file, indent=4)
-
-
 # GET TOKEN DATA FROM tokens.json
 with open('tokens.json', 'r') as json_file:
     token_data = json.load(json_file)
@@ -39,6 +30,39 @@ api = TwitterAPI(token_data["API_key"],
                  token_data["API_secret_key"],
                  token_data["access_token"],
                  token_data["access_token_secret"])
+
+# ids = {"foodtruckfinde1": "1013860593738997760",
+#        "interviewsndbox": "1266792700701007872"}
+
+# Lets you send DMs to a set of users with a custom message. (API calls used)
+
+
+def send_DM(info):
+    print(info, "ids inside send_DM")
+    message = info["message"]
+    print(message, "message inside send_DM")
+    for user in info["toDM"]:
+        # Message you want to send to users
+        # message_text = message
+        print(info["toDM"][user], "info[\"toDM\"][user]")
+        event = {
+            "event": {
+                "type": "message_create",
+                "message_create": {
+                    "target": {
+                        "recipient_id": info[user]
+                    },
+                    "message_data": {
+                        "text": message
+                    }
+                }
+            }
+        }
+        r = api.request('direct_messages/events/new', json.dumps(event))
+    print('SUCCESS' if r.status_code == 200 else 'PROBLEM: ' + r.text)
+
+
+# send_DM(ids)
 
 
 auth = tweepy.OAuthHandler(
@@ -51,6 +75,22 @@ tweepyAPI = tweepy.API(auth)
 # YOUR TWITTER SCREEN NAME GOES HERE
 
 your_user_id = None
+
+
+def campaign(info):
+    print(info["toDM"], "info[\"toDM\"] inside campaign")
+    with open("campaigns.json", 'r') as json_file:
+        campaign_data = json.load(json_file)
+    campaign_data.update({len(campaign_data): info})
+    message = info["message"]
+    with open('campaigns.json', 'w') as json_file:
+        json.dump(campaign_data, json_file, indent=4)
+    for user in info["toDM"]:
+        # Message you want to send to users
+
+        user_id_str = info["toDM"][user]
+        print(user_id_str, "user_id_str")
+        tweepyAPI.send_direct_message(user_id_str, message)
 
 
 def set_user(name):
@@ -83,35 +123,6 @@ def get_all_followers(name):
             }})
             with open('followers.json', 'w') as json_file:
                 json.dump(followers_data, json_file, indent=4)
-
-
-ids = {"foodtruckfinde1": "1013860593738997760",
-       "interviewsndbox": "1266792700701007872"}
-
-# Lets you send DMs to a set of users with a custom message. (API calls used)
-
-
-def send_DM():
-    for user in ids:
-        # Message you want to send to users
-        message_text = "Hey %s,\n\nWe're getting started with a new program, where we can message our followers on several platforms. \n\nFind us on substack.com here. Look forward to your continued support!  \n\n-Sagar" % user
-        print(ids[user], "ids[user]")
-        event = {
-            "event": {
-                "type": "message_create",
-                "message_create": {
-                    "target": {
-                        "recipient_id": ids[user]
-                    },
-                    "message_data": {
-                        "text": message_text
-                    }
-                }
-            }
-        }
-        r = api.request('direct_messages/events/new', json.dumps(event))
-    print('SUCCESS' if r.status_code == 200 else 'PROBLEM: ' + r.text)
-# send_DM()
 
 
 @app.route('/', methods=['GET'])
