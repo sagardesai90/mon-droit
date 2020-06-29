@@ -1,0 +1,10 @@
+.header {
+  position: absolute;
+  top: 0.5%;
+  right: 1%;
+}
+.child {
+  float: right;
+  padding: 30px;
+  color: #000;
+}

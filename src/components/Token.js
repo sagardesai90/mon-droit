@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Logo from "./Logo";
+import { Link } from "react-router-dom";
+import Header from "./Header";
 import "./Token.css";
 
 export default class Token extends Component {
@@ -39,42 +42,49 @@ export default class Token extends Component {
   render() {
     return (
       <div>
-        <label className="pure-material-textfield-outlined">
-          <input
-            name="apiKey"
-            onChange={this.handleChange.bind(this)}
-            placeholder=" "
-          />
-          <span>API Key</span>
-        </label>
-        <label className="pure-material-textfield-outlined">
-          <input
-            name="secretApiKey"
-            onChange={this.handleChange.bind(this)}
-            placeholder=" "
-          />
-          <span>Secret API Key</span>
-        </label>
-        <label className="pure-material-textfield-outlined">
-          <input
-            name="accessToken"
-            onChange={this.handleChange.bind(this)}
-            placeholder=" "
-          />
-          <span>Access Token</span>
-        </label>
-        <label className="pure-material-textfield-outlined">
-          <input
-            name="secretAccessToken"
-            onChange={this.handleChange.bind(this)}
-            placeholder=" "
-          />
-          <span>Secret Access Token</span>
-        </label>
-
-        <button className="btn" onClick={this.setToken}>
-          Set Keys
-        </button>
+        <Logo />
+        <Header />
+        <div className="top-level">
+          <label className="pure-material-textfield-outlined">
+            <input
+              name="apiKey"
+              onChange={this.handleChange.bind(this)}
+              placeholder=" "
+            />
+            <span>API Key</span>
+          </label>
+          <label className="pure-material-textfield-outlined">
+            <input
+              name="secretApiKey"
+              onChange={this.handleChange.bind(this)}
+              placeholder=" "
+            />
+            <span>Secret API Key</span>
+          </label>
+          <label className="pure-material-textfield-outlined">
+            <input
+              name="accessToken"
+              onChange={this.handleChange.bind(this)}
+              placeholder=" "
+            />
+            <span>Access Token</span>
+          </label>
+          <label className="pure-material-textfield-outlined">
+            <input
+              name="secretAccessToken"
+              onChange={this.handleChange.bind(this)}
+              placeholder=" "
+            />
+            <span>Secret Access Token</span>
+          </label>
+          <div>
+            <Link to="/campaign">
+              <button className="btn" onClick={this.setToken}>
+                Set Keys
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

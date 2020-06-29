@@ -1,6 +1,13 @@
 .container {
-  margin-right: 3rem;
-  margin-left: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 1.5px;
+  margin-top: 5rem;
+  margin-left: 1.5rem;
+}
+
+.left-side {
+  margin-top: 1.7rem;
 }
 
 .sort-icon {
@@ -10,4 +17,15 @@
 
 .follow-count-cell {
   width: 8rem;
+}
+
+.buttons {
+  background-color: #15b5e2;
+  margin-left: 0.15rem;
+  margin-top: 1.5rem;
+  border: none;
+  font-size: 16px;
+  padding: 21px 13px 16px;
+  transform: translateY(-20px);
+  border-radius: 4px;
 }

@@ -10,6 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import SortIcon from "./sort.png";
 import Checkbox from "@material-ui/core/Checkbox";
 import _ from "lodash";
+import TextareaAutosize from "react-textarea-autosize";
+import UserProfile from "./UserProfile";
 import "./TableComponent.css";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -38,6 +40,7 @@ export default class TableComponent extends Component {
       order: null,
       selected: {},
       message: null,
+      onDate: null,
     };
     this.getData = this.getData.bind(this);
     this.sortFollowers = this.sortFollowers.bind(this);
@@ -73,12 +76,9 @@ export default class TableComponent extends Component {
       body: JSON.stringify({
         toDM: this.state.selected,
         message: this.state.message,
+        createdOn: Date(),
       }),
     }).catch((error) => console.log(error, "error"));
-  }
-
-  handleChange(event) {
-    this.setState({ message: event.target.value });
   }
 
   sortFollowers() {
@@ -110,8 +110,8 @@ export default class TableComponent extends Component {
   select(follower) {
     console.log(follower, "name selected");
     let currSelected = this.state.selected;
-    if (currSelected[follower] !== true) {
-      currSelected[follower] = true;
+    if (!currSelected[follower]) {
+      currSelected[follower] = this.state.followerData[follower]["user_id"];
     } else {
       delete currSelected[follower];
     }
@@ -119,6 +119,10 @@ export default class TableComponent extends Component {
     this.setState({
       selected: currSelected,
     });
+  }
+
+  handleChange(event) {
+    this.setState({ message: event.target.value });
   }
 
   render() {
@@ -143,7 +147,7 @@ export default class TableComponent extends Component {
                     />
                     Follower Count
                   </StyledTableCell>
-                  <StyledTableCell>Localtion</StyledTableCell>
+                  <StyledTableCell>Location</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -180,12 +184,23 @@ export default class TableComponent extends Component {
     };
     return (
       <div className="container">
-        <input
-          placeholder="Craft your message here."
-          onChange={this.handleChange.bind(this)}
-        />
-        <button onClick={() => this.sendFollowersDM()}>Send</button>
-        <button onClick={() => this.getData()}>Get Followers</button>
+        <div className="left-side">
+          <UserProfile />
+          <TextareaAutosize
+            minRows={12}
+            maxRows={12}
+            defaultValue="Craft your message here."
+            onChange={this.handleChange.bind(this)}
+          />
+          <div>
+            <button className="buttons" onClick={() => this.sendFollowersDM()}>
+              Send
+            </button>
+            <button className="buttons" onClick={() => this.getData()}>
+              Show Followers
+            </button>
+          </div>
+        </div>
         {renderTable()}
       </div>
     );

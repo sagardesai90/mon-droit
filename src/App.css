@@ -40,3 +40,11 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.forms {
+  margin-top: 4rem;
+}
+
+.table {
+  margin-top: 2rem;
+}
