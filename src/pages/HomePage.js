@@ -10,8 +10,8 @@ export default class HomePage extends Component {
   render() {
     return (
       <div>
-        <Logo />
-        <Header />
+        <Logo darkMode={this.props.darkMode} />
+        <Header darkMode={this.props.darkMode} />
         <div
           className={
             this.props.darkMode === false ? "home-text" : "home-text-dark"

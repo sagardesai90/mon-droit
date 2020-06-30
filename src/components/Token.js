@@ -42,8 +42,8 @@ export default class Token extends Component {
   render() {
     return (
       <div>
-        <Logo />
-        <Header />
+        <Logo darkMode={this.props.darkMode} />
+        <Header darkMode={this.props.darkMode} />
         <div className="top-level">
           <label className="pure-material-textfield-outlined">
             <input
