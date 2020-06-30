@@ -6,13 +6,25 @@ export default class Header extends Component {
     return (
       <div className="header">
         <Link to="/campaign">
-          <h4 className="child">Campaign</h4>
+          <h4
+            className={this.props.darkMode === false ? "child" : "child-dark"}
+          >
+            Campaign
+          </h4>
         </Link>
         <Link to="/tokens">
-          <h4 className="child">Tokens</h4>
+          <h4
+            className={this.props.darkMode === false ? "child" : "child-dark"}
+          >
+            Tokens
+          </h4>
         </Link>
         <Link to="/">
-          <h4 className="child">Home</h4>
+          <h4
+            className={this.props.darkMode === false ? "child" : "child-dark"}
+          >
+            Home
+          </h4>
         </Link>
       </div>
     );

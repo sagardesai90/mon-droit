@@ -12,7 +12,11 @@ export default class HomePage extends Component {
       <div>
         <Logo />
         <Header />
-        <div className="home-text">
+        <div
+          className={
+            this.props.darkMode === false ? "home-text" : "home-text-dark"
+          }
+        >
           <p>Need to mass DM your Twitter followers?</p>
           <p>Mon Droit lets you do that.</p>
           <p>Ask them to follow you on</p>
@@ -34,9 +38,19 @@ export default class HomePage extends Component {
             onInit={(typewriter) => {}}
           />
           <p>and make the most of your hard earned Twitter presence.</p>
-          <div className="buttonDiv">
+          <div
+            className={
+              this.props.darkMode === false ? "buttonDiv" : "buttonDiv-dark"
+            }
+          >
             <Link to="/tokens">
-              <button className="home-btn letsGo">Let's go</button>
+              <button
+                className={
+                  this.props.darkMode === false ? "letsGo" : "letsGo-dark"
+                }
+              >
+                Let's go
+              </button>
             </Link>
           </div>
         </div>

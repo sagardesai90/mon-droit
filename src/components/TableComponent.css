@@ -29,3 +29,20 @@
   transform: translateY(-20px);
   border-radius: 4px;
 }
+
+.placeholder {
+  color: #000;
+}
+
+.placeholder-dark {
+  color: #fff;
+}
+
+.cell {
+  /* background-color: #cedae7; */
+  color: #000;
+}
+
+.cell-dark {
+  background-color: #99b3cd;
+}

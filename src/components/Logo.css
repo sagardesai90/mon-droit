@@ -14,6 +14,22 @@
   animation-name: textflicker;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+  color: #000;
+}
+
+.glitch-dark {
+  position: fixed;
+  top: 3%;
+  left: 6%;
+  font-size: 1em;
+  line-height: 1;
+  text-shadow: 0.06rem 0 0.06rem #ea36af, -0.125rem 0 0.06rem #75fa69;
+  letter-spacing: 0.125em;
+  animation-duration: 0.01s;
+  animation-name: textflicker;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  color: #fff;
 }
 
 @keyframes textflicker {

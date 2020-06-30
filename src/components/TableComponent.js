@@ -15,10 +15,10 @@ import UserProfile from "./UserProfile";
 import "./TableComponent.css";
 
 const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#657786",
-    color: theme.palette.common.white,
-  },
+  // head: {
+  //   backgroundColor: "#657786",
+  //   color: theme.palette.common.white,
+  // },
   body: {
     fontSize: 14,
   },
@@ -135,11 +135,41 @@ export default class TableComponent extends Component {
             <Table className="table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Send</StyledTableCell>
-                  <StyledTableCell>Screen Name</StyledTableCell>
-                  <StyledTableCell>Verified</StyledTableCell>
-                  <StyledTableCell>Bio</StyledTableCell>
-                  <StyledTableCell className="follow-count-cell">
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
+                    Send
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
+                    Screen Name
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
+                    Verified
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
+                    Bio
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false
+                        ? "cell follow-count-cell"
+                        : "cell-dark follow-count-cell"
+                    }
+                  >
                     <img
                       className="sort-icon"
                       src={SortIcon}
@@ -147,29 +177,63 @@ export default class TableComponent extends Component {
                     />
                     Follower Count
                   </StyledTableCell>
-                  <StyledTableCell>Location</StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
+                    Location
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {Object.keys(followerData, "folowers_data").map((follower) => (
                   <StyledTableRow>
                     <Checkbox
-                      className="checkbox"
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
                       onClick={(event) => this.select(follower)}
                     />
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      component="th"
+                      scope="row"
+                    >
                       {follower}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      align="left"
+                    >
                       {followerData[follower]["verified"].toString()}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      align="left"
+                    >
                       {followerData[follower]["bio"]}
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      align="center"
+                    >
                       {followerData[follower]["followers_count"]}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      align="left"
+                    >
                       {followerData[follower]["location"]}
                     </StyledTableCell>
                   </StyledTableRow>
@@ -179,7 +243,15 @@ export default class TableComponent extends Component {
           </TableContainer>
         );
       } else {
-        return <div>Table Here.</div>;
+        return (
+          <div
+            className={
+              this.props.darkMode === false ? "placeholder" : "placeholder-dark"
+            }
+          >
+            Table Here.
+          </div>
+        );
       }
     };
     return (

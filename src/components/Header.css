@@ -8,3 +8,9 @@
   padding: 30px;
   color: #000;
 }
+
+.child-dark {
+  float: right;
+  padding: 30px;
+  color: #fff;
+}

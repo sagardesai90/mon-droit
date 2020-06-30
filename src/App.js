@@ -50,7 +50,11 @@ class App extends Component {
       <Router>
         <div className="App">
           <Toggle setMode={this.setMode} darkMode={this.state.darkMode} />
-          <Route exact path="/" component={() => <HomePage />} />
+          <Route
+            exact
+            path="/"
+            component={() => <HomePage darkMode={this.state.darkMode} />}
+          />
           <Route
             path="/tokens"
             component={() => <Token darkMode={this.state.darkMode} />}

@@ -3,7 +3,18 @@
   left: 80px;
   top: 20%;
   text-align: left;
+  color: #000;
+  font-size: 36px;
+  font-weight: 100;
+  margin-bottom: 12px;
+}
 
+.home-text-dark {
+  position: absolute;
+  left: 80px;
+  top: 20%;
+  text-align: left;
+  color: #fff;
   font-size: 36px;
   font-weight: 100;
   margin-bottom: 12px;
@@ -17,7 +28,19 @@
   vertical-align: middle;
 }
 
+.buttonDiv-dark {
+  border-radius: 8px;
+  border: 3px solid #fff;
+  cursor: pointer;
+  width: 100px;
+  vertical-align: middle;
+}
+
 .buttonDiv:hover {
+  animation: border-flicker 2s linear forwards;
+}
+
+.buttonDiv-dark:hover {
   animation: border-flicker 2s linear forwards;
 }
 
@@ -30,7 +53,20 @@
   margin-bottom: 0.7rem;
 }
 
+.letsGo-dark {
+  color: #fff;
+  background-color: Transparent;
+  border: none;
+  padding: 0.5rem;
+  width: 100px;
+  margin-bottom: 0.7rem;
+}
+
 .letsGo:hover {
+  animation: text-flicker 2s linear forwards;
+}
+
+.letsGo-dark:hover {
   animation: text-flicker 2s linear forwards;
 }
 

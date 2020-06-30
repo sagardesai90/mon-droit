@@ -7,9 +7,9 @@ export default class CampaignPage extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <Logo />
-        <TableComponent />
+        <Header darkMode={this.props.darkMode} />
+        <Logo darkMode={this.props.darkMode} />
+        <TableComponent darkMode={this.props.darkMode} />
       </div>
     );
   }
