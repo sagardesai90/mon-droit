@@ -9,16 +9,23 @@ import Logo from "./components/Logo";
 import TextareaAutosize from "react-textarea-autosize";
 import HomePage from "./pages/HomePage";
 import CampaignPage from "./pages/CampaignPage";
+import Toggle from "./components/Toggle";
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { message: null };
+    this.state = { message: null, darkMode: false };
     this.handleChange = this.handleChange.bind(this);
+    this.setMode = this.setMode.bind(this);
   }
 
   handleChange(event) {
     this.setState({ message: event.target.value });
   }
+
+  setMode = () => {
+    this.setState({ darkMode: !this.state.darkMode });
+  };
 
   render() {
     return (
@@ -42,9 +49,16 @@ class App extends Component {
       // </div>
       <Router>
         <div className="App">
-          <Route exact path="/" component={HomePage} />
-          <Route path="/tokens" component={Token} />
-          <Route path="/campaign" component={CampaignPage} />
+          <Toggle setMode={this.setMode} darkMode={this.state.darkMode} />
+          <Route exact path="/" component={() => <HomePage />} />
+          <Route
+            path="/tokens"
+            component={() => <Token darkMode={this.state.darkMode} />}
+          />
+          <Route
+            path="/campaign"
+            component={() => <CampaignPage darkMode={this.state.darkMode} />}
+          />
         </div>
       </Router>
     );
