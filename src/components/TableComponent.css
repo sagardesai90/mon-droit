@@ -4,6 +4,7 @@
   grid-gap: 1.5px;
   margin-top: 8rem;
   margin-left: 1.5rem;
+  margin-right: 1rem;
 }
 
 .left-side {
@@ -40,7 +41,7 @@
 
 .cell {
   /* background-color: #cedae7; */
-  color: #000;
+  /* color: #000; */
 }
 
 .cell-dark {
