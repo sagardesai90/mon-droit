@@ -147,6 +147,13 @@ export default class TableComponent extends Component {
                       this.props.darkMode === false ? "cell" : "cell-dark"
                     }
                   >
+                    Name
+                  </StyledTableCell>
+                  <StyledTableCell
+                    className={
+                      this.props.darkMode === false ? "cell" : "cell-dark"
+                    }
+                  >
                     Screen Name
                   </StyledTableCell>
                   <StyledTableCell
@@ -203,6 +210,15 @@ export default class TableComponent extends Component {
                       scope="row"
                     >
                       {follower}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      className={
+                        this.props.darkMode === false ? "cell" : "cell-dark"
+                      }
+                      component="th"
+                      scope="row"
+                    >
+                      {followerData[follower]["handle"]}
                     </StyledTableCell>
                     <StyledTableCell
                       className={

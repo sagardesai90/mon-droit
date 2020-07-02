@@ -49,3 +49,5 @@ DB: json files stored locally
 - Overall speed optimizations across the board
 
 - Will look into implementing saasify
+
+- Table component is better constructed, data virtualiziation, select all button, pagination, among other additions

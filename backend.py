@@ -105,6 +105,7 @@ def get_all_followers(name):
     for request in range(15):
         your_200_followers = next(all_followers)
         for each_follower in your_200_followers:
+            name = each_follower._json['name']
             handle = each_follower._json['screen_name']
             user_id = each_follower._json['id']
             bio = each_follower._json['description']
@@ -113,7 +114,8 @@ def get_all_followers(name):
             location = each_follower._json['location']
             with open('followers.json', 'r') as json_file:
                 followers_data = json.load(json_file)
-            followers_data["followers"].update({handle: {
+            followers_data["followers"].update({name: {
+                "name": name,
                 "handle": handle,
                 "user_id": user_id,
                 "bio": bio,
