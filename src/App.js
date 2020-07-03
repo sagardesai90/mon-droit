@@ -10,6 +10,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import HomePage from "./pages/HomePage";
 import CampaignPage from "./pages/CampaignPage";
 import Toggle from "./components/Toggle";
+import VirtualizedTable from "./components/VirtualizedTable";
+import TablePage from "./pages/TablePage";
 
 class App extends Component {
   constructor(props) {
@@ -63,6 +65,7 @@ class App extends Component {
             path="/campaign"
             component={() => <CampaignPage darkMode={this.state.darkMode} />}
           />
+          <Route path="/table" component={() => <TablePage />} />
         </div>
       </Router>
     );
