@@ -9,36 +9,53 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import _ from "lodash";
+import Checkbox from "@material-ui/core/Checkbox";
+import SortIcon from "./sort.png";
+import "./VirtualizedTable.css";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "handle", label: "Screen Name", minWidth: 100 },
   {
-    id: "population",
-    label: "Population",
+    id: "verified",
+    label: "Verified",
     minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    // align: "right",
+    // format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
+    id: "bio",
+    label: "Bio",
     minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    // align: "right",
+    // format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "density",
-    label: "Density",
+    id: "follower_count",
+    label: "Follower Count",
     minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
+    // align: "right",
+    // format: (value) => value.toFixed(2),
+  },
+  {
+    id: "location",
+    label: "Location",
+    minWidth: 170,
+    // align: "right",
+    // format: (value) => value.toFixed(2),
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(
+  name,
+  screen_name,
+  verified,
+  bio,
+  follower_count,
+  location
+) {
+  // const follower_count = verified / bio;
+  return { name, screen_name, verified, bio, follower_count, location };
 }
 
 const rows = [
@@ -77,10 +94,15 @@ export default class StickyHeadTable extends Component {
       selected: {},
       message: null,
       onDate: null,
+      page: 1,
+      rowsPerPage: 5,
     };
     this.getData = this.getData.bind(this);
     this.sortFollowers = this.sortFollowers.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.renderTable = this.renderTable.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
   }
 
   async getData() {
@@ -130,6 +152,128 @@ export default class StickyHeadTable extends Component {
     this.setState({ message: event.target.value });
   }
 
+  select(follower) {
+    console.log(follower, "name selected");
+    let currSelected = this.state.selected;
+    if (!currSelected[follower]) {
+      currSelected[follower] = this.state.followerData[follower]["user_id"];
+    } else {
+      delete currSelected[follower];
+    }
+    console.log(currSelected, "currSelected");
+    this.setState({
+      selected: currSelected,
+    });
+  }
+
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      page: 0,
+      rowsPerPage: event.target.value,
+    });
+  };
+
+  renderTable() {
+    let followerData = this.state.followerData;
+    console.log(followerData, "followerData");
+    return (
+      <Paper className="paper">
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Selected</TableCell>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label == "Follower Count" ? (
+                      <img
+                        className="sort-icon"
+                        src={SortIcon}
+                        onClick={this.sortFollowers}
+                      />
+                    ) : null}
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.keys(followerData)
+                .slice(
+                  this.state.page * this.state.rowsPerPage,
+                  this.state.page * this.state.rowsPerPage +
+                    this.state.rowsPerPage
+                )
+                .map((follower) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={follower.code}
+                    >
+                      {/* {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format && typeof value === "number"
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })} */}
+
+                      {/* {Object.keys(followerData[follower]).map((objKey) => {
+                      // console.log(objKey, "objKey");
+                      console.log(follower, "follower in VirTab");
+                      return (
+                        <TableCell key={objKey}>
+                          {followerData[follower][objKey]}
+                        </TableCell>
+                      );
+                    })} */}
+                      <Checkbox onClick={(event) => this.select(follower)} />
+                      <TableCell>{followerData[follower]["name"]}</TableCell>
+                      <TableCell>{followerData[follower]["handle"]}</TableCell>
+                      <TableCell>
+                        {followerData[follower]["verified"].toString()}
+                      </TableCell>
+                      <TableCell>{followerData[follower]["bio"]}</TableCell>
+                      <TableCell>
+                        {followerData[follower]["followers_count"]}
+                      </TableCell>
+                      <TableCell>
+                        {followerData[follower]["location"]}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50, 75, 100, 250]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={this.state.rowsPerPage}
+          page={this.state.page}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+        />
+      </Paper>
+    );
+  }
+
   componentDidMount() {
     this.getData();
   }
@@ -146,60 +290,9 @@ export default class StickyHeadTable extends Component {
   //   setPage(0);
   // };
   render() {
-    return (
-      <Paper>
-        <TableContainer>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          // rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          // rowsPerPage={rowsPerPage}
-          // page={page}
-          // onChangePage={handleChangePage}
-          // onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-    );
+    if (this.state.followerData == null) {
+      return <p>Loading...</p>;
+    }
+    return this.renderTable();
   }
 }
