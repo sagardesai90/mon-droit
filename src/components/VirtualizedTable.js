@@ -76,15 +76,6 @@ const rows = [
   createData("Brazil", "BR", 210147125, 8515767),
 ];
 
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-  },
-  container: {
-    maxHeight: 440,
-  },
-});
-
 export default class StickyHeadTable extends Component {
   constructor(props) {
     super(props);
@@ -184,7 +175,7 @@ export default class StickyHeadTable extends Component {
     console.log(followerData, "followerData");
     return (
       <Paper className="paper">
-        <TableContainer>
+        <TableContainer className="table-container">
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -264,7 +255,7 @@ export default class StickyHeadTable extends Component {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 75, 100, 250]}
           component="div"
-          count={rows.length}
+          count={Object.keys(this.state.followerData).length}
           rowsPerPage={this.state.rowsPerPage}
           page={this.state.page}
           onChangePage={this.handleChangePage}

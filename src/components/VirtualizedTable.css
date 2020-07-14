@@ -1,3 +1,9 @@
 .paper {
   margin-top: 10rem;
+  width: 80%;
+  margin-left: 14rem;
+}
+
+.table-container {
+  max-height: 30%;
 }
