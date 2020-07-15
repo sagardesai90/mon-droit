@@ -2,8 +2,14 @@
   margin-top: 10rem;
   width: 80%;
   margin-left: 14rem;
+  z-index: 5;
 }
 
 .table-container {
-  max-height: 30%;
+  /* max-height: 30%; */
+}
+
+.table-container {
+  position: sticky;
+  top: 0;
 }

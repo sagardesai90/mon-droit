@@ -177,7 +177,7 @@ export default class StickyHeadTable extends Component {
       <Paper className="paper">
         <TableContainer className="table-container">
           <Table stickyHeader aria-label="sticky table">
-            <TableHead>
+            <TableHead className="table-container">
               <TableRow>
                 <TableCell>Selected</TableCell>
                 {columns.map((column) => (
