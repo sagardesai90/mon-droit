@@ -6,7 +6,7 @@ export default class TablePage extends Component {
   render() {
     return (
       <div>
-        <Logo />
+        <Logo darkMode={this.props.darkMode} />
         <VirtualizedTable />
       </div>
     );

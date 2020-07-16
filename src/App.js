@@ -65,7 +65,10 @@ class App extends Component {
             path="/campaign"
             component={() => <CampaignPage darkMode={this.state.darkMode} />}
           />
-          <Route path="/table" component={() => <TablePage />} />
+          <Route
+            path="/table"
+            component={() => <TablePage darkMode={this.state.darkMode} />}
+          />
         </div>
       </Router>
     );

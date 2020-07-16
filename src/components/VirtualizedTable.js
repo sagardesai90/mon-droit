@@ -213,26 +213,6 @@ export default class StickyHeadTable extends Component {
                       tabIndex={-1}
                       key={follower.code}
                     >
-                      {/* {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })} */}
-
-                      {/* {Object.keys(followerData[follower]).map((objKey) => {
-                      // console.log(objKey, "objKey");
-                      console.log(follower, "follower in VirTab");
-                      return (
-                        <TableCell key={objKey}>
-                          {followerData[follower][objKey]}
-                        </TableCell>
-                      );
-                    })} */}
                       <Checkbox onClick={(event) => this.select(follower)} />
                       <TableCell>{followerData[follower]["name"]}</TableCell>
                       <TableCell>{followerData[follower]["handle"]}</TableCell>
