@@ -2,12 +2,10 @@
   margin-top: 10rem;
   width: 80%;
   margin-left: 14rem;
-  z-index: 5;
-  overflowx: "auto";
 }
 
 .table-container {
-  max-height: 440;
+  max-height: 77vh;
 }
 
 .table-container {
