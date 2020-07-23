@@ -1,7 +1,17 @@
+.container-wrap {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+.message {
+  margin-top: 8rem;
+  margin-left: 2rem;
+}
+
 .paper {
-  margin-top: 10rem;
-  width: 80%;
-  margin-left: 14rem;
+  margin-top: 8rem;
+  width: 90%;
+  margin-left: 3rem;
 }
 
 .table-container {

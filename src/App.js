@@ -8,7 +8,7 @@ import TableComponent from "./components/TableComponent";
 import Logo from "./components/Logo";
 import TextareaAutosize from "react-textarea-autosize";
 import HomePage from "./pages/HomePage";
-import CampaignPage from "./pages/CampaignPage";
+import Campaign2Page from "./pages/Campaign2Page";
 import Toggle from "./components/Toggle";
 import VirtualizedTable from "./components/VirtualizedTable";
 import TablePage from "./pages/TablePage";
@@ -62,11 +62,11 @@ class App extends Component {
             component={() => <Token darkMode={this.state.darkMode} />}
           />
           <Route
-            path="/campaign"
-            component={() => <CampaignPage darkMode={this.state.darkMode} />}
+            path="/campaign2"
+            component={() => <Campaign2Page darkMode={this.state.darkMode} />}
           />
           <Route
-            path="/table"
+            path="/campaign"
             component={() => <TablePage darkMode={this.state.darkMode} />}
           />
         </div>

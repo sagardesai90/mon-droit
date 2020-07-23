@@ -10,6 +10,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import _ from "lodash";
 import Checkbox from "@material-ui/core/Checkbox";
+import TextareaAutosize from "react-textarea-autosize";
 import SortIcon from "./sort.png";
 import "./VirtualizedTable.css";
 
@@ -19,7 +20,7 @@ const columns = [
   {
     id: "verified",
     label: "Verified",
-    minWidth: 170,
+    minWidth: 70,
     // align: "right",
     // format: (value) => value.toLocaleString("en-US"),
   },
@@ -32,8 +33,8 @@ const columns = [
   },
   {
     id: "follower_count",
-    label: "Follower Count",
-    minWidth: 170,
+    label: "Followers",
+    minWidth: 90,
     // align: "right",
     // format: (value) => value.toFixed(2),
   },
@@ -86,7 +87,7 @@ export default class StickyHeadTable extends Component {
       message: null,
       onDate: null,
       page: 1,
-      rowsPerPage: 5,
+      rowsPerPage: 25,
     };
     this.getData = this.getData.bind(this);
     this.sortFollowers = this.sortFollowers.bind(this);
@@ -170,78 +171,117 @@ export default class StickyHeadTable extends Component {
     });
   };
 
+  async sendFollowersDM() {
+    let followersToDM = await fetch("http://localhost:5000/followersdm", {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        toDM: this.state.selected,
+        message: this.state.message,
+        createdOn: Date(),
+      }),
+    }).catch((error) => console.log(error, "error"));
+  }
+
   renderTable() {
     let followerData = this.state.followerData;
     console.log(followerData, "followerData");
     return (
-      <Paper className="paper">
-        <TableContainer className="table-container">
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead className="table-container">
-              <TableRow>
-                <TableCell>Selected</TableCell>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label == "Follower Count" ? (
-                      <img
-                        className="sort-icon"
-                        src={SortIcon}
-                        onClick={this.sortFollowers}
-                      />
-                    ) : null}
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Object.keys(followerData)
-                .slice(
-                  this.state.page * this.state.rowsPerPage,
-                  this.state.page * this.state.rowsPerPage +
-                    this.state.rowsPerPage
-                )
-                .map((follower) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={follower.code}
-                    >
-                      <Checkbox onClick={(event) => this.select(follower)} />
-                      <TableCell>{followerData[follower]["name"]}</TableCell>
-                      <TableCell>{followerData[follower]["handle"]}</TableCell>
-                      <TableCell>
-                        {followerData[follower]["verified"].toString()}
+      <div className="container-wrap">
+        <div className="message">
+          <TextareaAutosize
+            minRows={12}
+            maxRows={12}
+            defaultValue="Craft your message here."
+            onChange={this.handleChange.bind(this)}
+          />
+          <div>
+            <button className="buttons" onClick={() => this.sendFollowersDM()}>
+              Send
+            </button>
+          </div>
+        </div>
+        <div className="table-wrap">
+          <Paper className="paper">
+            <TableContainer className="table-container">
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead className="table-container">
+                  <TableRow>
+                    <TableCell>Selected</TableCell>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label == "Followers" ? (
+                          <img
+                            className="sort-icon"
+                            src={SortIcon}
+                            onClick={this.sortFollowers}
+                          />
+                        ) : null}
+                        {column.label}
                       </TableCell>
-                      <TableCell>{followerData[follower]["bio"]}</TableCell>
-                      <TableCell>
-                        {followerData[follower]["followers_count"]}
-                      </TableCell>
-                      <TableCell>
-                        {followerData[follower]["location"]}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50, 75, 100, 250]}
-          component="div"
-          count={Object.keys(this.state.followerData).length}
-          rowsPerPage={this.state.rowsPerPage}
-          page={this.state.page}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
-      </Paper>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Object.keys(followerData)
+                    .slice(
+                      this.state.page * this.state.rowsPerPage,
+                      this.state.page * this.state.rowsPerPage +
+                        this.state.rowsPerPage
+                    )
+                    .map((follower) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={follower.code}
+                        >
+                          <Checkbox
+                            onClick={(event) => this.select(follower)}
+                          />
+                          <TableCell>
+                            {followerData[follower]["name"]}
+                          </TableCell>
+                          <TableCell>
+                            {followerData[follower]["handle"]}
+                          </TableCell>
+                          <TableCell>
+                            {followerData[follower]["verified"].toString()}
+                          </TableCell>
+                          <TableCell>{followerData[follower]["bio"]}</TableCell>
+                          <TableCell>
+                            {followerData[follower]["followers_count"]}
+                          </TableCell>
+                          <TableCell>
+                            {followerData[follower]["location"]}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[25, 50, 75, 100, 250]}
+              component="div"
+              count={Object.keys(this.state.followerData).length}
+              rowsPerPage={this.state.rowsPerPage}
+              page={this.state.page}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </Paper>
+        </div>
+      </div>
     );
   }
 
