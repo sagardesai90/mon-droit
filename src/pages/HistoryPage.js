@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Logo from "../components/Logo";
+import "./HistoryPage.css";
 
 export default class HistoryPage extends Component {
   constructor(props) {
@@ -31,18 +33,30 @@ export default class HistoryPage extends Component {
 
   renderHistory() {
     let history = this.state.campaignHistory;
+    console.log(history, "history in renderHistory");
     return (
       <div>
-        {Object.keys(history).map((campaign) => (
-          <p>{campaign}</p>
-        ))}
+        <Logo darkMode={this.props.darkMode} />
+        <div className="history-card">
+          {Object.keys(history).map((campaign) => (
+            <div>
+              <p>{history[campaign.toString()]["createdOn"]}</p>
+              <p>{history[campaign.toString()]["message"]}</p>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   render() {
     if (this.state.campaignHistory == null) {
-      return <p>Loading....</p>;
+      return (
+        <div>
+          <Logo darkMode={this.props.darkMode} />
+          <p>Loading....</p>
+        </div>
+      );
     }
     return this.renderHistory();
   }

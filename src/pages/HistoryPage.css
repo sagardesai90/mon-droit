@@ -1,0 +1,5 @@
+.history-card {
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr;
+  margin-top: 9rem;
+}
