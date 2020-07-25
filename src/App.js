@@ -9,6 +9,7 @@ import Logo from "./components/Logo";
 import TextareaAutosize from "react-textarea-autosize";
 import HomePage from "./pages/HomePage";
 import Campaign2Page from "./pages/Campaign2Page";
+import HistoryPage from "./pages/HistoryPage";
 import Toggle from "./components/Toggle";
 import VirtualizedTable from "./components/VirtualizedTable";
 import TablePage from "./pages/TablePage";
@@ -31,24 +32,6 @@ class App extends Component {
 
   render() {
     return (
-      // <div className="App">
-      //   <Logo />
-      //   <div className="main">
-      //     <div className="forms">
-      //       <Token />
-      //       <UserProfile />
-      //       <TextareaAutosize
-      //         minRows={10}
-      //         maxRows={10}
-      //         defaultValue="Craft your message here."
-      //         onChange={this.handleChange.bind(this)}
-      //       />
-      //     </div>
-      //     <div className="table">
-      //       <TableComponent message={this.state.message} />
-      //     </div>
-      //   </div>
-      // </div>
       <Router>
         <div className="App">
           <Toggle setMode={this.setMode} darkMode={this.state.darkMode} />
@@ -68,6 +51,10 @@ class App extends Component {
           <Route
             path="/campaign"
             component={() => <TablePage darkMode={this.state.darkMode} />}
+          />
+          <Route
+            path="/history"
+            component={() => <HistoryPage darkMode={this.state.darkMode} />}
           />
         </div>
       </Router>

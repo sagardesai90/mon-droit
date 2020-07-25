@@ -161,3 +161,11 @@ def get_follow_DM_list():
     follower_DM_req = request.json
     campaign(follower_DM_req)
     return follower_DM_req
+
+
+@app.route('/history', methods=['GET'])
+@cross_origin(origin='*')
+def get_all_campaigns():
+    with open('campaigns.json', 'r') as outfile:
+        campaign_data = json.load(outfile)
+    return campaign_data

@@ -15,10 +15,6 @@ import UserProfile from "./UserProfile";
 import "./TableComponent.css";
 
 const StyledTableCell = withStyles((theme) => ({
-  // head: {
-  //   backgroundColor: "#657786",
-  //   color: theme.palette.common.white,
-  // },
   body: {
     fontSize: 14,
   },
