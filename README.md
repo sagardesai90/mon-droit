@@ -10,7 +10,8 @@ Screenshots below:
 
 ## Home
 
-![home](./MD-home.png)
+![home](./MonDroit-Home.png)
+![home-dark](./MonDroit-Home-Dark.png)
 
 ## Tokens page
 
@@ -18,7 +19,13 @@ Screenshots below:
 
 ## Campaign page
 
-![campaign](./MD-campaign.png)
+![campaign](./MonDroit-Campaign.png)
+![campaign-dark](./MonDroit-Campaign-Dark.png)
+
+## History Page
+
+![campaign](./MonDroit-History.png)
+![campaign-dark](./MonDroit-History-Dark.png)
 
 ## Tech Stack:
 
