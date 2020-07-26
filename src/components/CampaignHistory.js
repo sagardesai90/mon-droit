@@ -42,6 +42,11 @@ export default class CampaignHistory extends Component {
               className={this.props.darkMode === false ? "card" : "card-dark"}
             >
               <p>Message: {history[campaign.toString()]["message"]}</p>
+              <p>
+                Sent to{" "}
+                {Object.keys(history[campaign.toString()]["toDM"]).length}{" "}
+                followers.
+              </p>
               <p>Created on: {history[campaign.toString()]["createdOn"]}</p>
             </div>
           ))}

@@ -8,11 +8,13 @@
   color: black;
   border-style: solid;
   margin: 1rem;
+  border-radius: 0.5rem;
 }
 
 .card-dark {
   color: white;
   border-style: solid;
   border-color: azure;
+  border-radius: 0.5rem;
   margin: 1rem;
 }
