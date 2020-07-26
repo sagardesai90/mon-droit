@@ -6,8 +6,13 @@
 
 .card {
   color: black;
+  border-style: solid;
+  margin: 1rem;
 }
 
 .card-dark {
   color: white;
+  border-style: solid;
+  border-color: azure;
+  margin: 1rem;
 }

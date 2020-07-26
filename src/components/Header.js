@@ -5,6 +5,14 @@ export default class Header extends Component {
   render() {
     return (
       <div className="header">
+        <Link to="/history">
+          <h4
+            className={this.props.darkMode === false ? "child" : "child-dark"}
+          >
+            History
+          </h4>
+        </Link>
+
         <Link to="/campaign">
           <h4
             className={this.props.darkMode === false ? "child" : "child-dark"}

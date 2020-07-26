@@ -11,6 +11,7 @@ export default class Logo extends Component {
       >
         <img
           className="logo"
+          alt="logo"
           src={this.props.darkMode === false ? LogoImg : LogoDark}
         />
         <div>Mon Droit</div>

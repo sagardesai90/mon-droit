@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import logo from "./logo.svg";
 import "./App.css";
 import Token from "./components/Token";
-import UserProfile from "./components/UserProfile";
-import TableComponent from "./components/TableComponent";
-import Logo from "./components/Logo";
-import TextareaAutosize from "react-textarea-autosize";
 import HomePage from "./pages/HomePage";
 import Campaign2Page from "./pages/Campaign2Page";
 import HistoryPage from "./pages/HistoryPage";
 import Toggle from "./components/Toggle";
-import VirtualizedTable from "./components/VirtualizedTable";
 import TablePage from "./pages/TablePage";
 
 class App extends Component {

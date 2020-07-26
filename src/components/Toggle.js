@@ -9,14 +9,14 @@ export default class Toggle extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.darkMode != this.props.darkMode) {
+    if (prevProps.darkMode !== this.props.darkMode) {
       this.setState({ darkMode: this.props.darkMode });
     }
   }
 
   clicked = () => {
     // this.setState({ darkMode: !this.state.darkMode });
-    if (this.state.darkMode == true) {
+    if (this.state.darkMode === true) {
       document.body.style.backgroundColor = "#fff";
     } else {
       document.body.style.backgroundColor = "#15202B";
