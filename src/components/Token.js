@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import UserProfile from "./UserProfile";
 import "./Token.css";
 
 export default class Token extends Component {
@@ -44,6 +45,7 @@ export default class Token extends Component {
       <div>
         <Logo darkMode={this.props.darkMode} />
         <Header darkMode={this.props.darkMode} />
+        <UserProfile />
         <div className="top-level">
           <label className="pure-material-textfield-outlined">
             <input
