@@ -15,7 +15,8 @@ Screenshots below:
 
 ## Tokens page
 
-![tokens](./MD-tokens.png)
+![tokens](./MonDroit-Tokens.png)
+![tokens-dark](./MonDroit-Tokens-Dark.png)
 
 ## Campaign page
 
